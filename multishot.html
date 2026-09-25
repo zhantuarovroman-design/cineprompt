@@ -1,0 +1,33 @@
+<!doctype html><html lang="ru"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta name="theme-color" content="#0b0d0e"/><meta name="apple-mobile-web-app-capable" content="yes"/><link rel="manifest" href="manifest.webmanifest"/><link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml"/><title>CinePrompt Multi‑Shot</title><link rel="stylesheet" href="styles.css"/><link rel="stylesheet" href="multishot.css"/></head><body>
+<main class="multi-shell">
+  <header class="topbar"><div><div class="eyebrow">CINEMATIC SEQUENCE WORKSPACE</div><h1>CinePrompt <span>Multi‑Shot</span></h1></div><div class="header-actions"><a class="ghost nav-link" href="index.html">← Camera Rig</a><button class="ghost" id="resetSequence">Новая сцена</button></div></header>
+  <section class="sequence-settings">
+    <label>Видео-модель<select id="videoModel"><option>Seedance 2.0</option><option selected>Seedance 2.5</option><option>KLING 3.0</option><option>GOOGLE OMNI</option></select></label>
+    <label>Общая длительность<select id="totalDuration"><option value="5">5 секунд</option><option value="10" selected>10 секунд</option><option value="15">15 секунд</option><option value="30">30 секунд · Seedance 2.5</option></select></label>
+    <label>Формат<select id="aspectRatio"><option>16:9</option><option>9:16</option><option>1:1</option><option>2.39:1</option></select></label>
+    <label class="mini-toggle"><input id="inheritMovement" type="checkbox" checked/><span></span><div><b>Копировать движение</b><small>в следующий шот</small></div></label>
+    <label class="mini-toggle"><input id="lockContinuity" type="checkbox" checked/><span></span><div><b>Lock continuity</b><small>герой, свет, локация</small></div></label>
+    <label class="mini-toggle"><input id="seamlessDefault" type="checkbox" checked/><span></span><div><b>Бесшовные переходы</b><small>автоматически между всеми</small></div></label>
+  </section>
+  <section class="scene-brief">
+    <label class="brief-wide">Основа сцены<textarea id="sceneBrief" rows="2">Одна непрерывная кинематографичная сцена с единым персонажем, локацией и логикой действия</textarea></label>
+    <label>Визуальный стиль<input id="visualStyle" value="Фотореализм, cinematic color grading, физичный свет, естественная кожа и материалы"></label>
+    <label>Свет и время<input id="lighting" value="Сохранить время суток, направление, жёсткость света и экспозицию"></label>
+    <label>Общая оптика<input id="globalOptics" value="Кинооптика, естественная перспектива, мягкий highlight roll-off"></label>
+    <label>Что исключить<input id="globalNegative" value="identity drift, jump cuts, изменённая одежда, новая география, warped anatomy"></label>
+  </section>
+  <section class="sequence-layout">
+    <div class="editor-column">
+      <div class="sequence-bar"><div><b>Таймлайн сцены</b><small id="durationStatus">5 планов · 10.0 сек</small></div><button id="addShot">+ Добавить план</button></div>
+      <div class="timeline" id="timeline"></div>
+      <div class="shots" id="shots"></div>
+    </div>
+    <aside class="prompt-sidebar">
+      <div class="section-title"><span>OUTPUT</span> Multi-shot prompt</div>
+      <div class="language-toggle"><button data-lang="ru">RU</button><button data-lang="en" class="active">EN</button></div>
+      <pre id="sequencePrompt"></pre>
+      <button class="copy-button" id="copySequence"><span>Скопировать весь промпт</span><b>⌘C</b></button>
+      <button class="ghost full" id="variantBtn">↻ Вариант переходов</button>
+    </aside>
+  </section>
+</main><div class="toast" id="toast">Скопировано</div><script src="multishot.js?v=4"></script><script src="pwa.js"></script></body></html>

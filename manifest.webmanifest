@@ -1,0 +1,21 @@
+{
+  "name": "CinePrompt — Virtual Camera Rig",
+  "short_name": "CinePrompt",
+  "description": "Кинематографичный конструктор промптов, ракурсов, оптики и multi-shot сцен.",
+  "lang": "ru",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b0d0e",
+  "theme_color": "#0b0d0e",
+  "categories": ["photo", "video", "productivity"],
+  "icons": [
+    {"src": "assets/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"},
+    {"src": "assets/icons/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "4 Still Shots", "short_name": "4 Cameras", "url": "./coverage.html"},
+    {"name": "Multi‑Shot", "short_name": "Multi‑Shot", "url": "./multishot.html"}
+  ]
+}

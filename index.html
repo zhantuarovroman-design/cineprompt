@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0d0e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml" />
+  <title>CinePrompt Rig</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="modes.css" />
+  <link rel="stylesheet" href="previews.css" />
+  <link rel="stylesheet" href="movement.css" />
+  <link rel="stylesheet" href="preview-fix.css" />
+  <link rel="stylesheet" href="coverage.css" />
+  <link rel="stylesheet" href="atlas.css?v=5" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">VIRTUAL CAMERA WORKSPACE</div>
+        <h1>CinePrompt <span>Rig</span></h1>
+      </div>
+      <div class="header-actions">
+        <div class="status"><i></i> LIVE PROMPT</div>
+        <a class="ghost nav-link" href="coverage.html">4 Still Shots</a>
+        <a class="ghost nav-link" href="multishot.html">Multi‑Shot →</a>
+        <button class="ghost" id="resetBtn">Сбросить</button>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <aside class="panel left-panel">
+        <section class="block">
+          <div class="section-title"><span>01</span> Референс</div>
+          <label class="dropzone" id="dropzone">
+            <input id="imageInput" type="file" accept="image/*" />
+            <img id="referenceImage" alt="Загруженный референс" />
+            <div class="drop-copy" id="dropCopy">
+              <div class="upload-icon">↥</div>
+              <b>Загрузить изображение</b>
+              <small>PNG, JPG или WEBP</small>
+            </div>
+            <button class="remove-image" id="removeImage" type="button">×</button>
+          </label>
+          <label class="field-label" for="subject">Что в кадре</label>
+          <textarea id="subject" rows="3" placeholder="Например: мужчина в чёрном пальто стоит на городской улице">человек стоит фронтально, сохраняя внешность, одежду и окружение исходного изображения</textarea>
+        </section>
+
+        <section class="block">
+          <div class="section-title"><span>02</span> Камера и сенсор</div>
+          <label class="field-label">Кинокамера</label>
+          <select id="camera">
+            <option data-sensor="ARRI ALEV 4 CMOS, large format">ARRI ALEXA 35</option>
+            <option data-sensor="ARRI ALEV III, large format">ARRI ALEXA Mini LF</option>
+            <option data-sensor="8.6K full-frame CMOS">Sony VENICE 2</option>
+            <option data-sensor="RED V-RAPTOR 8K VV full-frame">RED V-RAPTOR XL</option>
+            <option data-sensor="12K Super 35 CMOS">Blackmagic URSA Cine 12K</option>
+            <option data-sensor="35mm motion-picture film">ARRICAM LT — Kodak Vision3</option>
+            <option data-sensor="65mm motion-picture film">Panavision System 65</option>
+          </select>
+          <div class="sensor-readout" id="sensorReadout"></div>
+          <label class="toggle accent-toggle camera-anamorphic"><input id="anamorphic" type="checkbox" /><span></span><div><b>Anamorphic</b><small>Овальное боке и горизонтальные flare</small></div></label>
+
+          <label class="field-label">Кинооптика</label>
+          <select id="lensFamily">
+            <option data-look="clean modern rendering, gentle highlight roll-off, natural skin tones">ARRI Signature Prime</option>
+            <option data-look="subtle anamorphic character, oval bokeh, controlled horizontal flares">Panavision T Series Anamorphic</option>
+            <option data-look="vintage warmth, lower contrast, soft halation and organic falloff">Cooke Panchro/i Classic</option>
+            <option data-look="warm dimensional rendering and smooth focus falloff">Cooke S8/i</option>
+            <option data-look="high micro-contrast, neutral color, crisp cinematic separation">ZEISS Supreme Prime</option>
+            <option data-look="vintage anamorphic texture, oval bokeh, expressive streak flares">Hawk V-Lite Anamorphic</option>
+          </select>
+
+          <div class="control-row">
+            <label>Фокусное <output id="focalOut">50 мм</output></label>
+            <input id="focal" type="range" min="18" max="135" value="50" />
+          </div>
+          <div class="control-row">
+            <label>Диафрагма <output id="apertureOut">T2.8</output></label>
+            <input id="aperture" type="range" min="14" max="110" value="28" />
+          </div>
+          <div class="optics-preview">
+            <div class="preview-head"><span id="previewTitle">ARRI ALEXA 35 · 50 мм</span><div><button id="showSensor" class="active">Сенсор</button><button id="showFocal">Фокусное</button></div></div>
+            <div class="preview-window"><div class="preview-image" id="previewImage"></div></div>
+            <p id="previewCaption">Тёплая естественная кожа, широкий динамический диапазон и мягкий roll-off в светах.</p>
+          </div>
+        </section>
+        <section class="block movement-block">
+          <div class="section-title"><span>03</span> Camera Prompt Bank</div>
+          <label class="toggle"><input id="motionEnabled" type="checkbox" /><span></span><div><b>Добавить движение</b><small>Для видео и image-to-video</small></div></label>
+          <input id="movementSearch" class="movement-search" type="search" placeholder="Найти движение…" />
+          <select id="movementCategory"><option value="all">Все категории · 46</option><option>Static</option><option>Pan & tilt</option><option>Zoom & focus</option><option>Dolly & tracking</option><option>Aerial & crane</option><option>Specialty</option></select>
+          <select id="cameraMovement" size="6" aria-label="Движение камеры"></select>
+          <div id="movementDetail" class="movement-detail"></div>
+          <div class="movement-meta"><label>Темп<select id="motionSpeed"><option value="slow">медленный</option><option value="medium" selected>средний</option><option value="fast">быстрый</option></select></label><label>Длина<select id="motionDuration"><option>3 сек</option><option selected>5 сек</option><option>7 сек</option><option>10 сек</option></select></label></div>
+          <a class="source-link" href="https://higgsfield.ai/academy/apps/prompt-bank?section=camera" target="_blank" rel="noreferrer">Higgsfield Camera Prompt Bank ↗</a>
+        </section>
+      </aside>
+
+      <section class="stage-column">
+        <div class="stage-head">
+          <div>
+            <div class="section-title"><span>04</span> Положение камеры</div>
+            <p>Перетаскивайте камеру вокруг объекта</p>
+          </div>
+          <div class="view-tabs"><button class="active">Вид сверху</button><button disabled>3D скоро</button></div>
+        </div>
+        <div class="stage" id="stage">
+          <div class="axis axis-x"></div><div class="axis axis-y"></div>
+          <div class="orbit orbit-1"></div><div class="orbit orbit-2"></div><div class="orbit orbit-3"></div>
+          <div class="direction-label top">ЗА ОБЪЕКТОМ</div>
+          <div class="direction-label bottom">ПЕРЕД ОБЪЕКТОМ</div>
+          <div class="direction-label left">СПРАВА В КАДРЕ</div>
+          <div class="direction-label right">СЛЕВА В КАДРЕ</div>
+          <div class="subject-marker"><div class="head"></div><div class="shoulders"></div><small>ОБЪЕКТ</small></div>
+          <svg class="ray" id="ray"><line id="rayLine" x1="50%" y1="50%" x2="50%" y2="85%" /></svg>
+          <button class="camera-marker" id="cameraMarker" aria-label="Переместить камеру">
+            <span class="cam-body"></span><span class="cam-lens"></span><small>CAM A</small>
+          </button>
+          <div class="angle-badge" id="angleBadge">0° · фронтально</div>
+        </div>
+        <div class="stage-controls">
+          <div class="control-row wide">
+            <label>Орбита <output id="orbitOut">0° · фронтально</output></label>
+            <input id="orbit" type="range" min="-180" max="180" value="0" />
+          </div>
+          <div class="control-row">
+            <label>Высота <output id="heightOut">уровень глаз</output></label>
+            <input id="height" type="range" min="-3" max="3" value="0" />
+          </div>
+          <div class="control-row">
+            <label>Дистанция <output id="distanceOut">средняя</output></label>
+            <input id="distance" type="range" min="1" max="3" value="2" />
+          </div>
+          <div class="quick-angles">
+            <button data-angle="0">Фронт</button><button data-angle="-45">¾ справа</button><button data-angle="-90">Профиль справа</button><button data-angle="45">¾ слева</button><button data-angle="90">Профиль слева</button><button data-angle="180">Со спины</button>
+          </div>
+          <div class="multi-camera">
+            <div class="coverage-title"><b>Coverage сцены</b><small>Дополнительные консистентные камеры</small></div>
+            <div class="camera-strip primary"><span>CAM A</span><b>Основной кадр</b><small id="cameraASummary">0° · уровень глаз</small></div>
+            <label class="camera-strip"><input id="cameraBEnabled" type="checkbox" /><span>CAM B</span><select id="cameraBShot"><option value="reverse">Обратный кадр</option><option value="top">Top shot</option><option value="bird">С птичьего полёта</option><option value="profile">Боковой профиль</option><option value="wide">Общий план</option><option value="detail">Деталь / insert</option></select></label>
+            <label class="camera-strip"><input id="cameraCEnabled" type="checkbox" /><span>CAM C</span><select id="cameraCShot"><option value="top">Top shot</option><option value="bird">С птичьего полёта</option><option value="reverse">Обратный кадр</option><option value="profile">Боковой профиль</option><option value="wide">Общий план</option><option value="detail">Деталь / insert</option></select></label>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel right-panel">
+        <section class="block output-block">
+          <div class="section-title"><span>05</span> Готовый промпт</div>
+          <div class="language-toggle"><button data-lang="ru">RU</button><button data-lang="en" class="active">EN</button></div>
+          <div class="prompt-output" id="promptOutput"></div>
+          <button class="copy-button" id="copyBtn"><span>Скопировать промпт</span><b>⌘C</b></button>
+        </section>
+        <section class="block settings">
+          <div class="section-title"><span>06</span> Автонастройки</div>
+          <label class="field-label">Тип генерации</label>
+          <div class="mode-picker" id="modePicker">
+            <button class="active" data-mode="angle"><b>Новый ракурс</b><small>Камера вокруг героя</small></button>
+            <button data-mode="reverse"><b>Обратный кадр</b><small>Вторая сторона диалога</small></button>
+            <button data-mode="eight"><b>Фон восьмёрки</b><small>Чистый контрфон сцены</small></button>
+          </div>
+          <label class="toggle"><input id="photoreal" type="checkbox" checked /><span></span><div><b>Фотореализм</b><small>Кожа, ткань, физичный свет</small></div></label>
+          <label class="toggle"><input id="cinematic" type="checkbox" checked /><span></span><div><b>Кинематографичность</b><small>Киноплёнка и цвет</small></div></label>
+          <label class="toggle"><input id="identity" type="checkbox" checked /><span></span><div><b>Сохранить идентичность</b><small>Лицо, одежда, окружение</small></div></label>
+          <label class="toggle"><input id="physics" type="checkbox" checked /><span></span><div><b>Физичная перспектива</b><small>Без деформаций анатомии</small></div></label>
+          <label class="toggle card-toggle"><input id="characterCard" type="checkbox" /><span></span><div><b>Карта персонажа</b><small>Эталон внешности для всей сцены</small></div></label>
+          <label class="toggle card-toggle"><input id="locationCard" type="checkbox" /><span></span><div><b>Карта локации</b><small>География, свет и материалы</small></div></label>
+        </section>
+        <section class="block negative">
+          <label class="field-label">Negative prompt</label>
+          <textarea id="negativePrompt" rows="4">cartoon, CGI look, plastic skin, distorted face, changed identity, extra limbs, warped anatomy, fisheye distortion, oversharpening, artificial bokeh, text, watermark</textarea>
+          <button class="ghost full" id="copyNegative">Скопировать negative</button>
+        </section>
+      </aside>
+    </section>
+
+    <section class="visual-library">
+      <div class="library-head">
+        <div><div class="eyebrow">OPTICS & CAMERA ANGLE ATLAS</div><h2>Визуальная база <span>кинокамеры</span></h2></div>
+        <p>Нажмите на пример, чтобы применить его к текущему промпту.</p>
+      </div>
+      <section class="library-panel">
+        <div class="library-title"><div><b>Анаморфотное фокусное расстояние</b><small>Один персонаж · горизонтальные примеры · squeeze 2×</small></div><span>18—135 MM</span></div>
+        <div class="focal-atlas" id="focalAtlas" aria-label="Примеры анаморфотных фокусных расстояний"></div>
+      </section>
+      <section class="library-panel">
+        <div class="library-title"><div><b>Диафрагма и анаморфотное боке</b><small>Глубина резкости и овальность световых дисков</small></div><span>T1.4—T11</span></div>
+        <div class="aperture-atlas" id="apertureAtlas" aria-label="Примеры диафрагмы"></div>
+      </section>
+      <section class="library-panel">
+        <div class="library-title"><div><b>Планы и высота камеры</b><small>Наглядная геометрия ракурса относительно персонажа</small></div><span>ANGLE GUIDE</span></div>
+        <div class="angle-atlas" id="angleAtlas" aria-label="Визуализация ракурсов камеры"></div>
+      </section>
+    </section>
+  </main>
+  <div class="toast" id="toast">Скопировано</div>
+  <script src="movement-bank.js"></script><script src="app.js?v=4"></script><script src="pwa.js"></script>
+</body>
+</html>

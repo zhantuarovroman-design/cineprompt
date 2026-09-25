@@ -1,0 +1,21 @@
+.mode-picker {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.mode-picker button {
+  display: grid;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #0d1010;
+  color: #adb5b2;
+  padding: 9px 10px;
+  cursor: pointer;
+}
+
+.mode-picker button b { font-size: 10px; }
+.mode-picker button small { font-size: 8px; color: #6f7976; margin-top: 2px; }
+.mode-picker button.active { border-color: var(--acid); background: #18200d; color: var(--acid); }
+.accent-toggle { padding-bottom: 12px; border-bottom: 1px solid var(--line); }

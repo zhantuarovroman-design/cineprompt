@@ -1,0 +1,9 @@
+.preview-window {
+  height: 280px;
+  background: radial-gradient(circle at 50% 40%, #252929, #090b0b 72%);
+}
+
+.preview-image {
+  background-color: transparent;
+  transition: opacity .18s ease;
+}
