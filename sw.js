@@ -1,8 +1,8 @@
-const CACHE='cineprompt-v7';
+const CACHE='cineprompt-v8';
 const APP_SHELL=[
-  './','./index.html','./coverage.html','./multishot.html','./image-tools.html','./manifest.webmanifest',
+  './','./index.html','./coverage.html','./multishot.html','./image-tools.html','./color-lab.html','./manifest.webmanifest',
   './styles.css','./modes.css','./previews.css','./preview-fix.css','./movement.css','./coverage.css','./atlas.css?v=6','./coverage-page.css','./multishot.css',
-  './app.js?v=5','./movement-bank.js','./coverage-page.js?v=4','./multishot.js?v=4','./image-tools.css','./image-tools.js','./pwa.js',
+  './app.js?v=5','./movement-bank.js','./coverage-page.js?v=4','./multishot.js?v=4','./image-tools.css','./image-tools.js','./color-lab.css','./color-lab.js','./pwa.js',
   './assets/icons/icon.svg','./assets/icons/icon-maskable.svg',
   './assets/previews/camera-sensor-atlas.png','./assets/previews/focal-length-atlas.png',
   './assets/previews/cameras/arri-alexa-35.png','./assets/previews/cameras/arri-alexa-mini-lf.png','./assets/previews/cameras/sony-venice-2.png','./assets/previews/cameras/red-v-raptor-xl.png','./assets/previews/cameras/blackmagic-ursa-cine-12k.png','./assets/previews/cameras/arricam-lt-kodak-vision3.png','./assets/previews/cameras/panavision-system-65.png',
